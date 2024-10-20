@@ -10,9 +10,14 @@ const getDisplayFeatureInformation = () => {
     return http.get<FeatureInformation|null>(`/feature_information/display`)
 }
 
+const flagFeatureInformationView = (id: string) => {
+    http.post<null>(`/feature_information/${id}/flag_view`);
+}
+
 const FeatureInformationService = {
     getFeatureInformation,
-    getDisplayFeatureInformation
+    getDisplayFeatureInformation,
+    flagFeatureInformationView
 }
 
 export default FeatureInformationService;

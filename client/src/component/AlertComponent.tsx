@@ -1,22 +1,45 @@
-import { FC } from 'react';
-import { User } from '../model/User';
-
-function test() {
-    alert("TEST");
-}
+import { FC, useState } from 'react';
 
 interface AlertProps {
-    user: User;
-  }  
+    content: string,
+    onReadMore?: CallableFunction,
+    onDismiss?: CallableFunction
+}  
 
-const AlertComponent: FC<AlertProps> = ({ user }) => {
+const AlertComponent: FC<AlertProps> = ({ content, onReadMore, onDismiss }) => {
+
+    const [ isDismissed, setDismissed ] = useState(false);
+
+    const dismiss = () => {
+        if (onDismiss) {
+            onDismiss();
+        }
+        setDismissed(true);
+    }
+    const readMore = () => {
+        if (onReadMore) {
+            onReadMore();
+        }
+        setDismissed(true);
+    }
+
+    // only render "read more" link
+    let readMoreEle = null;
+    if (onReadMore) {
+        readMoreEle = <div className="alert-readmore"><button onClick={readMore}>Read more.</button></div>
+    }
+
+    // once dismissed, stop displaying alert content
+    if (isDismissed) {
+        return null;
+    }
+
     return (
     <div className="alert feature-alert">
-        <div className="feature-description">🎉 New In 1.0.1: The Test Feature is here! 🎉</div>
-        <div className="feature-url"><a href="/check">Click here to check it out!</a></div>
+        <div className="alert-content">{content}</div>
+        {readMoreEle}
         <div className="alert-options">
-            <button onClick={test}>Remind Me Later</button>
-            <button onClick={test}>Dismiss</button>
+            <button onClick={dismiss}>Dismiss</button>
         </div>
     </div>
     );

@@ -17,15 +17,16 @@ button {
     font-weight: bold;
 }
 
-.alert .feature-description, .alert .feature-url {
+.alert .alert-content, .alert .alert-readmore {
     display: inline-block;
 }
 
-.alert .feature-url {
+.alert .alert-readmore {
     margin-left: 5px;
 }
-.alert .feature-url a {
+.alert .alert-readmore button {
     color: #795D69;
+    font-size: 15px;
 }
 
 .alert .alert-options {
