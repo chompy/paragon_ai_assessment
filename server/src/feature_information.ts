@@ -6,7 +6,7 @@ const featureInformationSchema = new mongoose.Schema({
     alertText: { type: String },
     description: { type: String },
     releaseDate: { type: Date, required: true }
-}, { collection: "feature_information", timestamps: true });
+}, { collection: "FeatureInformation", timestamps: true });
 
 const FeatureInformation = mongoose.model("FeatureInformation", featureInformationSchema);
 export { FeatureInformation };

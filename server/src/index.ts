@@ -22,7 +22,11 @@ await FeatureInformation.create({ name: "Test Feature", slug: "test_feature", al
 //await FeatureInformation.create({ name: "Test Feature B", description: "The new Test Feature is here! Try it out today!", releaseDate: new Date("2024-10-19"), url: "https://www.example.com" });
 
 const getCurrentUser = async () => {
-    return await User.findOne();
+    let user = await User.findOne();
+    if (!user) {
+        throw new Error("User not found.");
+    }
+    return user;
 }
 
 // define routes
@@ -30,7 +34,7 @@ const getCurrentUser = async () => {
 // GET /api/me -- Get the current user, for this demo it's always the first user found in database
 app.get("/api/me", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = getCurrentUser();
+        const user = await getCurrentUser();
         res.json(user);
     } catch (e) {
         next(e);
@@ -50,8 +54,42 @@ app.get("/api/feature_information", async (req: Request, res: Response, next: Ne
 // GET /api/feature_information/display -- Return the feature information that should be displayed to user, if any
 app.get("/api/feature_information/display", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const featureInformation = await FeatureInformation.findOne({ releaseDate: { $lte: new Date() } }).sort("-releaseDate");
-        res.json(featureInformation)
+        const user = await getCurrentUser();
+        // TODO: find a way to write a query that returns only the most recent feature information that the user hasn't viewed
+        const featureInformationResults = await FeatureInformation.aggregate([
+            {
+                $lookup: {
+                    from: "FeatureInformationView",
+                    localField: "_id",
+                    foreignField: "featureInformation",
+                    as: "userView",
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$user", user._id],
+                                }
+                            }
+                        }
+                    ]
+                },
+            },
+            {
+                $match: {
+                    $expr: {
+                        $lte: [ "$releaseDate", new Date() ]
+                    }
+                }
+            },
+            {
+                $sort: { releaseDate: -1, userView: -1 }
+            }
+        ]);
+        if (featureInformationResults && featureInformationResults[0].userView.length == 0) {
+            res.json(featureInformationResults[0]);
+            return;
+        }
+        res.json(null);
     } catch (e) {
         next(e);
     }
@@ -92,9 +130,21 @@ app.delete("/api/feature_information/:id", async (req: Request, res: Response) =
 // POST /api/feature_information/:id/flag_view -- Log that current user has viewed the feature information so it isn't shown again
 app.post("/api/feature_information/:id/flag_view", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = getCurrentUser();
+        const user = await getCurrentUser();
         const featureInformation = await FeatureInformation.findById(req.params.id);
-        const featureInformationView = await FeatureInformationView.create({ user: user, featureInformation: featureInformation })
+        if (!featureInformation) {
+            throw new Error("FeatureInformation not found.");
+        }
+
+        // check if already exists
+        let featureInformationView = await FeatureInformationView.findOne({ user: user._id, featureInformation: featureInformation._id })
+        if (featureInformationView) {
+            res.json(featureInformationView);
+            return;
+        }
+
+        // create record
+        featureInformationView = await FeatureInformationView.create({ user: user._id, featureInformation: featureInformation._id })
         res.json(featureInformationView);
     } catch (e) {
         next(e);
