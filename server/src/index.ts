@@ -19,7 +19,6 @@ app.use(express.json());
 // test data for the database, since we're using an in memory database to demo this app
 await User.create({ username: "test_user" });
 await FeatureInformation.create({ name: "Test Feature", slug: "test_feature", alertText: "🎉 New in 1.0.2: The new Test Feature is here! 🎉", description: "More information blah blah blah", releaseDate: new Date("2024-10-20") });
-//await FeatureInformation.create({ name: "Test Feature B", description: "The new Test Feature is here! Try it out today!", releaseDate: new Date("2024-10-19"), url: "https://www.example.com" });
 
 const getCurrentUser = async () => {
     let user = await User.findOne();
