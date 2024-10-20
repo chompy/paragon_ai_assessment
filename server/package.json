@@ -1,0 +1,28 @@
+{
+  "name": "paragon_ai_assessment",
+  "version": "1.0.0",
+  "main": "src/server/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-strip-types --experimental-sqlite --import=tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "Nathan Ogden",
+  "license": "ISC",
+  "description": "",
+  "engines": {
+    "node": ">=23.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongodb-memory-server": "^10.1.2",
+    "mongoose": "^8.7.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.7",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}

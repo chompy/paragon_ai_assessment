@@ -1,0 +1,109 @@
+.clear {
+    clear: both;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    display: inline;
+    cursor: pointer;
+}
+
+.alert {
+    background-color: #2de68a;
+    padding: 5px 12px;
+    font-weight: bold;
+}
+
+.alert .feature-description, .alert .feature-url {
+    display: inline-block;
+}
+
+.alert .feature-url {
+    margin-left: 5px;
+}
+.alert .feature-url a {
+    color: #795D69;
+}
+
+.alert .alert-options {
+    float: right;
+}
+
+.alert button::before {
+    display: inline-block;
+    content: "|";
+    margin: 0 1px;
+}
+.alert button:first-child::before {
+    display: none;
+}
+
+.header {
+    background-color: #795D69;
+    padding: 10px;
+}
+
+.header, .header a, .header button {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header .app-name {
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: Verdana, sans-serif;
+    letter-spacing: -1px;
+}
+
+.header .user-login {
+    float: right;
+    padding: 0;
+}
+
+.user-login .user-pic {
+    vertical-align: middle;
+    margin-right: 10px;
+    max-width: 38px;
+    border-radius: 38px;
+    vertical-align: top;
+}
+
+.user-login .user-details {
+    display: inline-block;
+}
+
+.user-login .user-name {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.user-login ul {
+    list-style-type: none;
+    padding: 0;
+    margin: -3px 0 0 0;
+}
+
+.user-login li {
+    font-size: 14px;
+    display: inline-block;
+}
+
+.user-login li::before {
+    display: inline-block;
+    content: "|";
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.user-login li:first-child::before {
+    display: none;
+}
+
+.page {
+    margin: 10px;
+}
