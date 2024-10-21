@@ -5,12 +5,12 @@ WORKDIR /app
 COPY client /app/client
 COPY server /app/server
 
-RUN cd client && \
+RUN apt-get update && apt-get -y install curl && \
+    cd client && \
     npm install && \
-    npm run build
+    npm run build && \
+    cd ../server && \
+    npm install
+    
 
-RUN cd server && \
-    npm install &&
-    apt-get update && apt-get install curl
-
-CMD "cd server && npm start"
+CMD ["sh", "-c", "cd server && npm start"]
