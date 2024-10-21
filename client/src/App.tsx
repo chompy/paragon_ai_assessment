@@ -30,11 +30,14 @@ const App: FC = () => {
     const navigate = useNavigate();
     let featureInformationAlert = null;
     if (displayFeatureInformation._id) {
-        const readMoreCallback = () => {
+        const dismissCallback = () => {
             FeatureInformationService.flagFeatureInformationView(displayFeatureInformation._id);
+        }
+        const readMoreCallback = () => {
+            dismissCallback();
             navigate(`/about/feature/${displayFeatureInformation._id}`);
         };
-        featureInformationAlert = <AlertComponent content={displayFeatureInformation.alertText} onReadMore={readMoreCallback} />
+        featureInformationAlert = <AlertComponent content={displayFeatureInformation.alertText} onDismiss={dismissCallback} onReadMore={readMoreCallback} />
     }
 
     return (
@@ -45,6 +48,8 @@ const App: FC = () => {
                 <Route path="/" element={<HomePage user={user} />} />
                 <Route path="/about/feature/:id" element={<FeatureInformationPage />} />
             </Routes>
+            <hr/>
+            <button onClick={FeatureInformationService.reset}>Reset</button>
         </div>
     );
 }

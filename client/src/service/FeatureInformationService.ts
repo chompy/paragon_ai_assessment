@@ -14,10 +14,15 @@ const flagFeatureInformationView = (id: string) => {
     http.post<null>(`/feature_information/${id}/flag_view`);
 }
 
+const reset = () => {
+    http.post<null>(`/reset`);
+}
+
 const FeatureInformationService = {
     getFeatureInformation,
     getDisplayFeatureInformation,
-    flagFeatureInformationView
+    flagFeatureInformationView,
+    reset
 }
 
 export default FeatureInformationService;

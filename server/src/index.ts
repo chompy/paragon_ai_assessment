@@ -1,10 +1,14 @@
 import express, { Express, Request, Response, NextFunction } from "express";
-
 import mongoose from "mongoose";
+import path, { dirname } from "path";
+import { fileURLToPath } from 'url';
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { FeatureInformation } from "./feature_information";
 import { User } from "./user";
 import { FeatureInformationView } from "./feature_user_view";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // init database
 const mongod = await MongoMemoryServer.create();
@@ -150,6 +154,28 @@ app.post("/api/feature_information/:id/flag_view", async (req: Request, res: Res
     }
 });
 
+// POST - /api/reset -- Reset application, delete all FeatureInformationView records.
+app.post("/api/reset", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await FeatureInformationView.deleteMany();
+        res.json(null);
+    } catch (e) {
+        next(e);
+    }
+});
+
+app.use(express.static(path.join("..", "client", "build")));
+app.use((req: Request, res: Response, next: NextFunction) => {
+    if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
+        next();
+    } else {
+        res.header("Cache-Control', 'private, no-cache, no-store, must-revalidate");
+        res.header("Expires", "-1");
+        res.header("Pragma", "no-cache");
+        
+        res.sendFile(path.join(__dirname, "..", "..", "client", "build", "index.html"));
+    }
+});
 
 // start server
 app.listen(PORT, () => {
