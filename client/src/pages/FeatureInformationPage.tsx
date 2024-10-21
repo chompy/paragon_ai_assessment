@@ -5,18 +5,18 @@ import FeatureInformationService from '../service/FeatureInformationService';
 
 const FeatureInformationPage: FC = () => {
 
-    let { id } = useParams();
+    let { slug } = useParams();
 
-    const [featureInformation, setFeatureInformation] = useState({_id: "", name: "", description: "", releaseDate: new Date()});
+    const [featureInformation, setFeatureInformation] = useState({_id: "", slug: "", name: "", description: "", releaseDate: new Date()});
 
     useEffect(() => {
-        if (id) {
-            FeatureInformationService.getFeatureInformation(id)
+        if (slug) {
+            FeatureInformationService.getFeatureInformation(slug)
                 .then((res) => {
                     setFeatureInformation(res.data);
                 });
         }
-    }, [id]);
+    }, [slug]);
 
 
     if (featureInformation) {
@@ -31,7 +31,7 @@ const FeatureInformationPage: FC = () => {
     return (
         <div className="page page-feature-information error">
             <h1>404 Not Found</h1>
-            <p>Feature '{id}' could not be found.</p>
+            <p>Feature '{slug}' could not be found.</p>
         </div>
     );
 }

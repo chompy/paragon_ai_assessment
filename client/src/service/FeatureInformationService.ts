@@ -2,8 +2,8 @@
 import http from "../http-common";
 import { FeatureInformation } from "../model/FeatureInformation";
 
-const getFeatureInformation = (id: string) => {
-    return http.get<FeatureInformation>(`/feature_information/${id}`)
+const getFeatureInformation = (slug: string) => {
+    return http.get<FeatureInformation>(`/feature_information/${slug}`)
 }
 
 const getDisplayFeatureInformation = () => {
@@ -14,15 +14,10 @@ const flagFeatureInformationView = (id: string) => {
     http.post<null>(`/feature_information/${id}/flag_view`);
 }
 
-const reset = () => {
-    http.post<null>(`/reset`);
-}
-
 const FeatureInformationService = {
     getFeatureInformation,
     getDisplayFeatureInformation,
-    flagFeatureInformationView,
-    reset
+    flagFeatureInformationView
 }
 
 export default FeatureInformationService;

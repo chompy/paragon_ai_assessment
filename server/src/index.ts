@@ -22,7 +22,7 @@ app.use(express.json());
 
 // test data for the database, since we're using an in memory database to demo this app
 await User.create({ username: "test_user" });
-await FeatureInformation.create({ name: "Test Feature", slug: "test_feature", alertText: "🎉 New in 1.0.2: The new Test Feature is here! 🎉", description: "More information blah blah blah", releaseDate: new Date("2024-10-20") });
+await FeatureInformation.create({ name: "Test Feature", slug: "test_feature", alertText: "🎉 New in 1.0.1: The new Test Feature is here! 🎉", description: "This new feature is ground breaking! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.", releaseDate: new Date("2024-10-20") });
 
 const getCurrentUser = async () => {
     let user = await User.findOne();
@@ -98,10 +98,10 @@ app.get("/api/feature_information/display", async (req: Request, res: Response, 
     }
 });
 
-// GET /api/feature_information/:id -- Return feature information matching id
-app.get("/api/feature_information/:id", async (req: Request, res: Response, next: NextFunction) => {
+// GET /api/feature_information/:slug -- Return feature information matching slug
+app.get("/api/feature_information/:slug", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const featureInformation = await FeatureInformation.findById(req.params.id)
+        const featureInformation = await FeatureInformation.findOne({ slug: req.params.slug })
         res.json(featureInformation);
     } catch (e) {
         next(e);
@@ -154,10 +154,11 @@ app.post("/api/feature_information/:id/flag_view", async (req: Request, res: Res
     }
 });
 
-// POST - /api/reset -- Reset application, delete all FeatureInformationView records.
-app.post("/api/reset", async (req: Request, res: Response, next: NextFunction) => {
+// POST - /api/dev/reset_feature_views -- Reset feature views for current user
+app.post("/api/dev/reset_feature_views", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await FeatureInformationView.deleteMany();
+        const user = await getCurrentUser();
+        await FeatureInformationView.deleteMany({ user: user._id });
         res.json(null);
     } catch (e) {
         next(e);

@@ -7,11 +7,14 @@ import UserService from './service/UserService';
 import HomePage from './pages/HomePage';
 import FeatureInformationPage from './pages/FeatureInformationPage';
 import FeatureInformationService from './service/FeatureInformationService';
+import DevToolsComponent from './component/DevToolsComponent';
+
+const DEV_MODE = true;
 
 const App: FC = () => {
 
     const [user, setUser] = useState({_id: "", username: ""});
-    const [displayFeatureInformation, setDisplayFeatureInformation] = useState({_id: "", alertText: ""});
+    const [displayFeatureInformation, setDisplayFeatureInformation] = useState({_id: "", slug: "", alertText: ""});
 
     useEffect(() => {
         UserService.getCurrentUser()
@@ -35,7 +38,7 @@ const App: FC = () => {
         }
         const readMoreCallback = () => {
             dismissCallback();
-            navigate(`/about/feature/${displayFeatureInformation._id}`);
+            navigate(`/about/feature/${displayFeatureInformation.slug}`);
         };
         featureInformationAlert = <AlertComponent content={displayFeatureInformation.alertText} onDismiss={dismissCallback} onReadMore={readMoreCallback} />
     }
@@ -46,10 +49,9 @@ const App: FC = () => {
             <HeaderComponent user={user} />
             <Routes>
                 <Route path="/" element={<HomePage user={user} />} />
-                <Route path="/about/feature/:id" element={<FeatureInformationPage />} />
+                <Route path="/about/feature/:slug" element={<FeatureInformationPage />} />
             </Routes>
-            <hr/>
-            <button onClick={FeatureInformationService.reset}>Reset</button>
+            <DevToolsComponent active={DEV_MODE} user={user} />
         </div>
     );
 }

@@ -108,3 +108,20 @@ button {
 .page {
     margin: 10px;
 }
+
+.dev-tools {
+    border-top: 1px solid #000;
+    margin: 8px;
+    padding-top: 5px;
+    font-weight: bold;
+}
+
+.dev-tools button {
+    margin-left: 5px;
+}
+
+.dev-tools button::before {
+    content: "|";
+    display: inline-block;
+    margin-right: 2px;
+}

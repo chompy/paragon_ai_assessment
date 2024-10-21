@@ -10,7 +10,7 @@ interface HeaderProps {
 const HeaderComponent: FC<HeaderProps> = ({ user }) => {
   return (
     <div className="header">
-        <Link className="app-name" to="/">Nathan App</Link>
+        <Link className="app-name" to="/">Nathan's Features INC</Link>
         <UserLoginComponent user={user} />
         <div className="clear"></div>
     </div>
