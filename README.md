@@ -20,13 +20,16 @@ Thinking about how I personally would prefer to be presented with a new feature 
 - User login component, displays the current user, which is always 'test_user'.
 - Alert box
     - Displays any text passed in.
-    - Accepts callbacks for when read more button is clicked and dismissed button.
+    - Accepts callbacks for when read more or dismiss buttons are clicked.
     - Feature information is passed in and feature is flagged as viewed through the above mentioned callbacks.
 - Feature information page
-    - Where the "read more" button takes you.
+    - This is where the "read more" button takes you.
+- Dev tools
+    - Reset view flag.
 
 ## Other Things If I Had More Time
 - Add/remove/update feature informations from admin UI.
-- Allow customizations to alert box like chaging the read more button text or background color.
+- Allow customizations to alert box, like chaging the read more button text or background color.
 - Better error handling on both front-end and back-end, a error modal would be nice.
 - Improve the database query used to fetch the feature that should be displayed.
+- Animate the alert, slide in/slide out.
