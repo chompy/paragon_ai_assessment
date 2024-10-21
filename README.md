@@ -4,8 +4,8 @@
 Thinking about how I personally would prefer to be presented with a new feature I knew I wanted something noticable but not intrusive. I opted to build a dismissable alert box that appears at the top of the web page. The back-end records when the user dismisses it so it remains hidden even on subsequent loads, as well as other devices.
 
 ## Tech Stack
-- Node (with TypeScript)
-- MongoDB (in-memory)
+- NodeJS / TypeScript
+- MongoDB
 - ReactJS
 
 ## Functionality / Features
